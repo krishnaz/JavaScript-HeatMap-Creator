@@ -39,7 +39,12 @@
         fetch('static/location.json').then(function(response) {
           response.json().then(function(result) {
             let locations = result.locations.map((val) => {
-              return new google.maps.LatLng(val.latitudeE7 * (10 ** -7), val.longitudeE7 * (10 ** -7));
+              return "weight" in val ? 
+                    {
+                      location: new google.maps.LatLng(val.latitudeE7 * (10 ** -7), val.longitudeE7 * (10 ** -7)),
+                      weight: val.weight
+                    }
+                  : new google.maps.LatLng(val.latitudeE7 * (10 ** -7), val.longitudeE7 * (10 ** -7));
             })
 
             heatmap = new google.maps.visualization.HeatmapLayer({
